@@ -8,7 +8,7 @@ const RecipesIndex = (props) => {
   useEffect(() => {
     axios
       .get('api/recipes')
-      .then(response => setRecipes(response.data));
+      .then(response => {setRecipes(response.data); console.log(response.data)});
   }, []);
 
   return (

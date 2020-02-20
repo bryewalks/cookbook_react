@@ -5,6 +5,7 @@ import { Route,
         } from 'react-router-dom';
 import RecipesIndex from 'views/RecipesIndex';
 import RecipesShow from 'views/RecipesShow';
+import RecipesNew from 'views/RecipesNew';
 
 const Routes = () => {
   return (
@@ -12,6 +13,7 @@ const Routes = () => {
       <Router>
         <Switch>
           <Route exact path='/' component={RecipesIndex} />
+          <Route path='/recipes/new' component={RecipesNew} />
           <Route exact path='/recipes/:id' component={RecipesShow} />
         </Switch>
       </Router>

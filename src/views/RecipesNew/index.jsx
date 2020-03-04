@@ -1,42 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 const RecipesNew = (props) => {
-  const [title, setTitle] = useState('')
-  const [chef, setChef] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
-  const [ingredients, setIngredients] = useState('')
-  const [directions, setDirections] = useState('')
-  const [prepTime, setPrepTime] = useState(0)
+  const { register, handleSubmit } = useForm();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
+  const onSubmit = (data) => {
     let params = {
-      title: title,
-      chef: chef,
-      image_url: imageUrl,
-      ingredients: ingredients,
-      directions: directions,
-      prep_time: prepTime
-    }
+      title: data.title,
+      chef: data.chef,
+      image_url: data.imageUrl,
+      ingredients: data.ingredients,
+      directions: data.directions,
+      prep_time: data.prepTime
+    };
 
     axios
       .post('api/recipes', params)
       .then(response => { console.log("Success!", response.data)
                           props.history.push(`/recipes/${response.data.id}`)})
       .catch(error => {console.log(error)})
-  }
+  };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Title" onChange={e => setTitle(e.target.value)} />
-        <input type="text" placeholder="Chef" onChange={e => setChef(e.target.value)} />
-        <input type="text" placeholder="Image Url" onChange={e => setImageUrl(e.target.value)} />
-        <input type="text" placeholder="Ingredients" onChange={e => setIngredients(e.target.value)} />
-        <input type="text" placeholder="Directions" onChange={e => setDirections(e.target.value)} />
-        <input type="text" placeholder="Prep Time" onChange={e => setPrepTime(e.target.value)} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="text" name='title' placeholder="Title" ref={register} />
+        <input type="text" name='chef' placeholder="Chef" ref={register} />
+        <input type="text" name='imageUrl' placeholder="Image Url" ref={register} />
+        <input type="text" name='ingredients' placeholder="Ingredients" ref={register} />
+        <input type="text" name='directions' placeholder="Directions" ref={register} />
+        <input type="text" name='prepTime' placeholder="Prep Time" ref={register} />
         <button>Submit</button>
       </form>
     </div>
